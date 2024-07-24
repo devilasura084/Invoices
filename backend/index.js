@@ -43,7 +43,6 @@ app.post('/api/auth/signup', async (req, res) => {
 });
 app.post('/api/auth/login',async (req,res)=>{
     try{
-        console.log(req.body)
         const {email,password}=req.body;
         const Existinguser=await usermodel.findOne({email});
         if(!Existinguser)
@@ -56,43 +55,40 @@ app.post('/api/auth/login',async (req,res)=>{
         }
         const token=jwt.sign({email:req.body.email},process.env.SECRET_KEY);
         res.json({token});
-        console.log("successfully logged in");
     }
     catch{
-        console.error('Error in signup:', error);
         return res.status(400).json({message:"unforeseen error has occured"});
     }
 })
-// app.post('/api/invoices',async (req,res)=>{
-//     try{
-//         console.log(req.body)
-//         const {invoice_number}=req.body;
-//         const Existinginvoice=await invoicemodel.findOne({invoice_number});
-//         if(Existinginvoice)
-//         {
-//             return res.status(400).json({message:"Invoice number already exists"});
-//         }
-//         const user=new invoicemodel(req.body);
-//         user.save();
-//         res.status(200).send({message:'Data saved successfully'});
-//         console.log('Data send succefully');
-//     }
-//     catch{
-//         console.error('Error in signup:', error);
-//         res.status(500).send('Error saving data');
-//     }
-// })
-// app.get('/api/invoices',async (req,res)=>{
-//     try{
-//         console.log(req.body)
-//         const invoices=await invoicemodel.find().sort({invoice_number:1});
-//         res.json(invoices);
-//     }
-//     catch(err){
-//         console.log("Error fetching data",err);
-//         res.status(500).json({error:'Internal server error'})
-//     }
-// })
+app.post('/api/invoices',async (req,res)=>{
+    try{
+        console.log(req.body)
+        const {invoice_number}=req.body;
+        const Existinginvoice=await invoicemodel.findOne({invoice_number});
+        if(Existinginvoice)
+        {
+            return res.status(400).json({message:"Invoice number already exists"});
+        }
+        const user=new invoicemodel(req.body);
+        user.save();
+        res.status(200).send({message:'Data saved successfully'});
+        console.log('Data send succefully');
+    }
+    catch{
+        console.error('Error in signup:', error);
+        res.status(500).send('Error saving data');
+    }
+})
+app.get('/api/invoices',async (req,res)=>{
+    try{
+        const invoices=await invoicemodel.find().sort({invoice_number:1});
+        res.json(invoices);
+    }
+    catch(err){
+        console.log("Error fetching data",err);
+        res.status(500).json({error:'Internal server error'})
+    }
+})
 // app.get('/dashboard',autthenticaejwt,(req,res)=>{
 //     console.log(req.body)
 //     res.send('This is a protected routte');
