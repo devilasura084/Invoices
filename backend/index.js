@@ -64,8 +64,7 @@ app.post('/api/invoices',async (req,res)=>{
     try{
         console.log(req.body)
         const {invoice_number}=req.body;
-        const cleaninvoice=parseInt(invoice_number.slice(1));
-        const Existinginvoice=await invoicemodel.findOne({invoice_number:cleaninvoice});
+        const Existinginvoice=await invoicemodel.findOne({invoice_number});
         if(Existinginvoice)
         {
             return res.status(400).json({message:"Invoice number already exists"});
@@ -101,8 +100,7 @@ app.get('/',autthenticaejwt,(req,res)=>{
 app.delete('/api/invoices/:invoice_number',async (req,res)=>{
     try {
         const { invoice_number } = req.params;
-        const cleaninvoice=parseInt(invoice_number.slice(1));
-        const deletedinvoice=await invoicemodel.findOneAndDelete({ invoice_number: cleaninvoice });
+        const deletedinvoice=await invoicemodel.findOneAndDelete({ invoice_number: invoice_number });
         if (!deletedinvoice) {
             return res.status(404).json({ message: 'Invoice not found' });
           }
@@ -117,10 +115,9 @@ app.delete('/api/invoices/:invoice_number',async (req,res)=>{
 app.put('/api/invoices/:invoice_number',async (req,res)=>{
     try{
         const { invoice_number } = req.params;
-        const cleaninvoice=parseInt(invoice_number.slice(1));
         const updatedata=req.body;
         const updatedinvoice=await invoicemodel.findOneAndUpdate(
-            {invoice_number:cleaninvoice},
+            {invoice_number:invoice_number},
             updatedata,
             {
                 new:true,runValidators:true
@@ -138,11 +135,10 @@ app.put('/api/invoices/:invoice_number',async (req,res)=>{
 app.get('/api/invoices/:invoice_number',async (req,res)=>{
     try{
         const { invoice_number } = req.params;
-        const cleaninvoice=parseInt(invoice_number.slice(1));
-        if (!cleaninvoice) {
+        if (!invoice_number) {
             return res.status(400).json({ error: 'Invoice number is required' });
           }
-        const searchedinvoices=await invoicemodel.find({invoice_number:cleaninvoice});
+        const searchedinvoices=await invoicemodel.find({invoice_number:{$gte:invoice_number}}).sort({invoice_number:1});
         if (searchedinvoices.length > 0) {
             res.json(searchedinvoices);
           } else {
