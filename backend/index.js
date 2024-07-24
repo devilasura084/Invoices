@@ -16,25 +16,25 @@ app.use(cors());
 const PORT=process.env.PORT||4000;
 if(mongoose.connect(process.env.MONGO_URL))
 console.log('Connected to MongoDB');
-// app.post('/api/auth/signup',async (req,res)=>{
-//     try{
-//         console.log(req.body);
-//         const {email}=req.body;
-//         const Existinguser=await usermodel.findOne({email});
-//         if(Existinguser)
-//         {
-//             return res.status(400).json({message:"Email already taken"});
-//         }
-//         req.body.password=await bcrypt.hash(req.body.password,10);
-//         const user=new usermodel(req.body);
-//         user.save();
-//         res.status(200).send({message:'Data saved successfully'});
-//         console.log('Data send succefully');
-//     }catch{
-//         console.error('Error in signup:', error);
-//         res.status(500).send('Error saving data');
-//     }
-// })
+app.post('/api/auth/signup',async (req,res)=>{
+    try{
+        console.log(req.body);
+        const {email}=req.body;
+        const Existinguser=await usermodel.findOne({email});
+        if(Existinguser)
+        {
+            return res.status(400).json({message:"Email already taken"});
+        }
+        req.body.password=await bcrypt.hash(req.body.password,10);
+        const user=new usermodel(req.body);
+        user.save();
+        res.status(200).send({message:'Data saved successfully'});
+        console.log('Data send succefully');
+    }catch{
+        console.error('Error in signup:', error);
+        res.status(500).send('Error saving data');
+    }
+})
 // app.post('/api/auth/login',async (req,res)=>{
 //     try{
 //         console.log(req.body)
