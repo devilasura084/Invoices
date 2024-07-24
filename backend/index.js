@@ -142,7 +142,7 @@ app.get('/api/invoices/:invoice_number',async (req,res)=>{
         if (!cleaninvoice) {
             return res.status(400).json({ error: 'Invoice number is required' });
           }
-        const searchedinvoices=await invoicemodel.find({invoice_number:{$gte:cleaninvoice}}).sort({cleaninvoice:1});
+        const searchedinvoices=await invoicemodel.find({invoice_number:cleaninvoice});
         if (searchedinvoices.length > 0) {
             res.json(searchedinvoices);
           } else {
