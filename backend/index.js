@@ -13,16 +13,26 @@ require('dotenv').config();
 const app=express();
 app.use(bodyparser.json());
 app.use(cors());
-console.log('MongoDB URL:', process.env.MONGO_URL);
-console.log('Port:', process.env.PORT);
-mongoose.connect(process.env.MONGO_URL);
-mongoose.connection.on('connected', () => {
-    console.log('Connected to MongoDB');
-  });
-  
-mongoose.connection.on('error', (err) => {
-    console.error(`Failed to connect to MongoDB: ${err}`);
-});
+const PORT = process.env.PORT || 3000;
+const MONGO_URL = process.env.MONGO_URL;
+
+if (!MONGO_URL) {
+    console.error('MONGO_URL is not defined in environment variables');
+    process.exit(1);
+}
+console.log('MongoDB URL:', MONGO_URL);
+console.log('Port:', PORT);
+mongoose.connect(MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => {
+        console.log('Connected to MongoDB');
+        app.listen(PORT, () => {
+            console.log(`Server is running on port ${PORT}`);
+        });
+    })
+    .catch((err) => {
+        console.error('Failed to connect to MongoDB:', err);
+        process.exit(1);
+    });
 app.post('/api/auth/signup',async (req,res)=>{
     try{
         console.log(req.body);
@@ -38,6 +48,7 @@ app.post('/api/auth/signup',async (req,res)=>{
         res.status(200).send({message:'Data saved successfully'});
         console.log('Data send succefully');
     }catch{
+        console.error('Error in signup:', error);
         res.status(500).send('Error saving data');
     }
 })
@@ -59,6 +70,7 @@ app.post('/api/auth/login',async (req,res)=>{
         console.log("successfully logged in");
     }
     catch{
+        console.error('Error in signup:', error);
         return res.status(400).json({message:"unforeseen error has occured"});
     }
 })
@@ -77,6 +89,7 @@ app.post('/api/invoices',async (req,res)=>{
         console.log('Data send succefully');
     }
     catch{
+        console.error('Error in signup:', error);
         res.status(500).send('Error saving data');
     }
 })
@@ -152,6 +165,7 @@ app.get('/api/invoices/:invoice_number',async (req,res)=>{
           }
     }
     catch (error) {
+        console.error('Error in signup:', error);
         res.status(500).json({ error: 'Internal Server Error' });
       }
 })
@@ -180,6 +194,10 @@ app.get('/api/invoices/:invoice_number/pdf',async(req,res)=>{
         res.status(500).json({ error: 'An error occurred while generating the PDF' });
       }
 })
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send('Something broke!');
+});
 app.listen(process.env.PORT, () => {
     console.log(`Server is running on port ${process.env.PORT}`);
   });
