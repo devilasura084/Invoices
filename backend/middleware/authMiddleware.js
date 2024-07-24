@@ -5,13 +5,14 @@ const autthenticatejwt=(req,res,next)=>{
     console.log(token);
     if(token)
     {
-        jwt.verify(token,process.env.SECRET_KEY,(err,user)=>{
-            if(err){
-                return res.status(403);
-            }
-            req.user=user;
+        try {
+            const decoded = jwt.verify(token, process.env.SECRET_KEY);
+            req.user = decoded;
             next();
-        })
+        } catch (err) {
+            console.error('JWT verification failed:', err.message);
+            return res.status(403).json({ message: 'Invalid token' });
+        }
     }
     else
     {
