@@ -13,6 +13,7 @@ require('dotenv').config();
 const app=express();
 app.use(bodyparser.json());
 app.use(cors());
+const PORT=process.env.PORT||8849894;
 try {
      mongoose.connect(process.env.MONGO_URL);
     console.log('Connected to MongoDB');
