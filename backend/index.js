@@ -22,17 +22,36 @@ if (!MONGO_URL) {
 }
 console.log('MongoDB URL:', MONGO_URL);
 console.log('Port:', PORT);
-mongoose.connect(MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true })
-    .then(() => {
-        console.log('Connected to MongoDB');
-        app.listen(PORT, () => {
-            console.log(`Server is running on port ${PORT}`);
-        });
-    })
-    .catch((err) => {
-        console.error('Failed to connect to MongoDB:', err);
-        process.exit(1);
+try {
+    await mongoose.connect(process.env.MONGO_URL);
+    console.log('Connected to MongoDB');
+    
+    const server = app.listen(PORT, () => {
+      console.log(`Server is running on port ${PORT}`);
     });
+  
+    server.on('error', (error) => {
+      if (error.syscall !== 'listen') {
+        throw error;
+      }
+  
+      switch (error.code) {
+        case 'EACCES':
+          console.error(`Port ${PORT} requires elevated privileges`);
+          process.exit(1);
+          break;
+        case 'EADDRINUSE':
+          console.error(`Port ${PORT} is already in use`);
+          process.exit(1);
+          break;
+        default:
+          throw error;
+      }
+    });
+  } catch (error) {
+    console.error('Failed to start the server:', error);
+    process.exit(1);
+  }
 app.post('/api/auth/signup',async (req,res)=>{
     try{
         console.log(req.body);
@@ -198,6 +217,13 @@ app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).send('Something broke!');
 });
-app.listen(process.env.PORT, () => {
+const server = app.listen(process.env.PORT, () => {
     console.log(`Server is running on port ${process.env.PORT}`);
+  });
+  
+  process.on('SIGTERM', () => {
+    console.log('SIGTERM signal received: closing HTTP server');
+    server.close(() => {
+      console.log('HTTP server closed');
+    });
   });
