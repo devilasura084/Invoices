@@ -16,47 +16,53 @@ app.use(cors());
 const PORT=process.env.PORT||4000;
 if(mongoose.connect(process.env.MONGO_URL))
 console.log('Connected to MongoDB');
-app.post('/api/auth/signup',async (req,res)=>{
-    try{
-        console.log(req.body);
-        const {email}=req.body;
-        const Existinguser=await usermodel.findOne({email});
-        if(Existinguser)
-        {
-            return res.status(400).json({message:"Email already taken"});
+app.post('/api/auth/signup', async (req, res) => {
+    try {
+        const { email, password } = req.body;
+
+        // Validate request body
+        if (!email || !password) {
+            return res.status(400).json({ message: "Email and password are required" });
         }
-        req.body.password=await bcrypt.hash(req.body.password,10);
-        const user=new usermodel(req.body);
-        user.save();
-        res.status(200).send({message:'Data saved successfully'});
-        console.log('Data send succefully');
-    }catch{
-        console.error('Error in signup:', error);
+
+        // Check if user already exists
+        const existingUser = await usermodel.findOne({ email });
+        if (existingUser) {
+            return res.status(400).json({ message: "Email already taken" });
+        }
+
+        // Hash the password and save new user
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const user = new usermodel({ ...req.body, password: hashedPassword });
+        await user.save();
+
+        res.status(200).send({ message: 'Data saved successfully' });
+    } catch (error) {
         res.status(500).send('Error saving data');
     }
+});
+app.post('/api/auth/login',async (req,res)=>{
+    try{
+        console.log(req.body)
+        const {email,password}=req.body;
+        const Existinguser=await usermodel.findOne({email});
+        if(!Existinguser)
+        {
+            return res.status(400).json({message:"Email does not exist please sign up"});
+        }
+        if(await bcrypt.compare(Existinguser.password,password))
+        {
+            return res.status(400).json({message:"Email or password is wrong"});
+        }
+        const token=jwt.sign({email:req.body.email},process.env.SECRET_KEY);
+        res.json({token});
+        console.log("successfully logged in");
+    }
+    catch{
+        console.error('Error in signup:', error);
+        return res.status(400).json({message:"unforeseen error has occured"});
+    }
 })
-// app.post('/api/auth/login',async (req,res)=>{
-//     try{
-//         console.log(req.body)
-//         const {email,password}=req.body;
-//         const Existinguser=await usermodel.findOne({email});
-//         if(!Existinguser)
-//         {
-//             return res.status(400).json({message:"Email does not exist please sign up"});
-//         }
-//         if(await bcrypt.compare(Existinguser.password,password))
-//         {
-//             return res.status(400).json({message:"Email or password is wrong"});
-//         }
-//         const token=jwt.sign({email:req.body.email},process.env.SECRET_KEY);
-//         res.json({token});
-//         console.log("successfully logged in");
-//     }
-//     catch{
-//         console.error('Error in signup:', error);
-//         return res.status(400).json({message:"unforeseen error has occured"});
-//     }
-// })
 // app.post('/api/invoices',async (req,res)=>{
 //     try{
 //         console.log(req.body)
