@@ -25,6 +25,7 @@ mongoose.connection.on('error', (err) => {
 });
 app.post('/api/auth/signup',async (req,res)=>{
     try{
+        console.log(req.body);
         const {email}=req.body;
         const Existinguser=await usermodel.findOne({email});
         if(Existinguser)
@@ -42,6 +43,7 @@ app.post('/api/auth/signup',async (req,res)=>{
 })
 app.post('/api/auth/login',async (req,res)=>{
     try{
+        console.log(req.body)
         const {email,password}=req.body;
         const Existinguser=await usermodel.findOne({email});
         if(!Existinguser)
@@ -62,6 +64,7 @@ app.post('/api/auth/login',async (req,res)=>{
 })
 app.post('/api/invoices',async (req,res)=>{
     try{
+        console.log(req.body)
         const {invoice_number}=req.body;
         const Existinginvoice=await invoicemodel.findOne({invoice_number});
         if(Existinginvoice)
@@ -79,6 +82,7 @@ app.post('/api/invoices',async (req,res)=>{
 })
 app.get('/api/invoices',async (req,res)=>{
     try{
+        console.log(req.body)
         const invoices=await invoicemodel.find().sort({invoice_number:1});
         res.json(invoices);
     }
@@ -88,13 +92,16 @@ app.get('/api/invoices',async (req,res)=>{
     }
 })
 app.get('/dashboard',autthenticaejwt,(req,res)=>{
+    console.log(req.body)
     res.send('This is a protected routte');
 })
 app.get('/',autthenticaejwt,(req,res)=>{
+    console.log(req.body)
     res.send('This is a protected routte');
 })
 app.delete('/api/invoices/:invoice_number',async (req,res)=>{
     try {
+        console.log(req.body)
         const { invoice_number } = req.params;
         const deletedinvoice=await invoicemodel.findOneAndDelete({ invoice_number: invoice_number });
         if (!deletedinvoice) {
@@ -110,6 +117,7 @@ app.delete('/api/invoices/:invoice_number',async (req,res)=>{
 })
 app.put('/api/invoices/:invoice_number',async (req,res)=>{
     try{
+        console.log(req.body)
         const { invoice_number } = req.params;
         console.log(invoice_number)
         const updatedata=req.body;
@@ -130,7 +138,7 @@ app.put('/api/invoices/:invoice_number',async (req,res)=>{
     }
 })
 app.get('/api/invoices/:invoice_number',async (req,res)=>{
-    
+    console.log(req.body)
     try{
         const { invoice_number } = req.params;
         if (!invoice_number) {
@@ -148,7 +156,7 @@ app.get('/api/invoices/:invoice_number',async (req,res)=>{
       }
 })
 app.get('/api/invoices/:invoice_number/pdf',async(req,res)=>{
-    try{
+    try{console.log(req.body)
         const { invoice_number } = req.params;
         const cleaninvoice=parseInt(invoice_number.slice(1));
         const invoicetodownload=await invoicemodel.findOne({invoice_number:cleaninvoice})
