@@ -1,5 +1,5 @@
-import Bargraph from "@/components/Bargraph";
-import Piechart from "@/components/Piechart";
+import Bargraph from "../components/Bargraph";
+import Piechart from "../components/Piechart";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";

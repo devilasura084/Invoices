@@ -1,6 +1,6 @@
-import Delete from '@/services/Delete';
-import Download from '@/services/Download';
-import Edit from '@/services/Edit';
+import Delete from '../services/Delete';
+import Download from '../services/Download';
+import Edit from '../services/Edit';
 import { useState } from 'react'
 interface invoicecardprops{
   invoice_number?:number

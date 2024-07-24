@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Invoices from '../components/Invoices'
-import CreateInvoice from '@/components/CreateInvoice'
+import CreateInvoice from '../components/CreateInvoice'
 import axios from 'axios'
-import Search from '@/services/Search'
+import Search from '../services/Search'
 const Dashboard = () => {
   const [invoicedata,setInvoicedata]=useState<invoice[]>([])
   const Navigate=useNavigate();
