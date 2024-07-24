@@ -13,10 +13,6 @@ require('dotenv').config();
 const app=express();
 app.use(bodyparser.json());
 app.use(cors());
-if (!MONGO_URL) {
-    console.error('MONGO_URL is not defined in environment variables');
-    process.exit(1);
-}
 try {
      mongoose.connect(process.env.MONGO_URL);
     console.log('Connected to MongoDB');
