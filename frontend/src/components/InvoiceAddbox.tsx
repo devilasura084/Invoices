@@ -70,7 +70,8 @@ const InvoiceAddbox = ({setInvoicedata}:AddInvoiceprops) => {
             onChange={(e)=>{
                 setinvoicedata({...invoicedata,    invoice_number:e.target.valueAsNumber})
             }}
-            className='border mb-2 rounded'
+            className='indent-1 border-2 mb-2 rounded bg-transparent transition ease-in delay-150 hover:bg-blue-100 duration-300
+            focus:outline-none'
             type='number'
             name='invoice_number'
         />
@@ -80,7 +81,9 @@ const InvoiceAddbox = ({setInvoicedata}:AddInvoiceprops) => {
             onChange={(e)=>{
                 setinvoicedata({...invoicedata,    customer_name:e.target.value})
             }}
-            className='border mb-2 rounded'
+            className='indent-1 border-2 bg-transparent mb-2 rounded
+            transition ease-in delay-150 hover:bg-blue-100 duration-300
+            focus:outline-none'
             type='text'
             name='customer_name'
         />
@@ -89,7 +92,9 @@ const InvoiceAddbox = ({setInvoicedata}:AddInvoiceprops) => {
             onChange={(e)=>{
                 setinvoicedata({...invoicedata,amount:e.    target.valueAsNumber})
             }}
-            className='border rounded mb-2 no-arrows'
+            className='indent-1 border-2 bg-transparent rounded mb-2 no-arrows
+            transition ease-in delay-150 hover:bg-blue-100 duration-300
+            focus:outline-none'
             type='number'
             name='amount'
         />
@@ -101,7 +106,9 @@ const InvoiceAddbox = ({setInvoicedata}:AddInvoiceprops) => {
                 else
                 setinvoicedata({...invoicedata,due_date:undefined})
             }}
-            className='border rounded mb-2'
+            className='indent-1 border-2 bg-transparent rounded mb-2
+            transition ease-in delay-150 hover:bg-blue-100 duration-300
+             focus:outline-none'
             type='date'
             name='due_date'
         />
@@ -110,12 +117,12 @@ const InvoiceAddbox = ({setInvoicedata}:AddInvoiceprops) => {
             onChange={(e)=>{
                 setinvoicedata({...invoicedata,status:e.    target.checked})
             }}
-            className='border rounded mb-2'
+            className='border-2 rounded mb-2'
             type='checkbox'
             name='status'
         />
     <button
-        className='text-sm text-center h-10 rounded     border transition ease-in delay-150     hover:bg-blue-100 duration-300'
+        className='text-sm text-center h-10 rounded    border-2 transition ease-in delay-150 hover:bg-blue-100 duration-300'
         type='submit'
     >
         Add

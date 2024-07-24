@@ -12,7 +12,7 @@ interface invoicecardprops{
 }
 const InvoiceCard = ({invoice_number,customer_name,amount,due_date,status,setInvoicedata}:invoicecardprops) => {
     const [edit,setEdit]=useState(false);
-    const dateobj=new Date(due_date);
+    const dateobj = new Date(due_date ?? new Date());
     const date = `${dateobj.getDate()}-${dateobj.getMonth() + 1}-${dateobj.getFullYear()}`
     
     const handleEdit=()=>{

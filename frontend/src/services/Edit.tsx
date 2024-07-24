@@ -14,7 +14,6 @@ interface edit{
 }
 const Edit = ({setEdit,invoice_number,setInvoicedata}:Editprops) => {
     const [editData, setEditData] = useState<edit>({
-        status:false
     });
       
       const fetchinvoices=async()=>{

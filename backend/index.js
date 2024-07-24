@@ -75,7 +75,7 @@ app.post('/api/invoices',async (req,res)=>{
 })
 app.get('/api/invoices',async (req,res)=>{
     try{
-        const invoices=await invoicemodel.find();
+        const invoices=await invoicemodel.find().sort({invoice_number:1});
         res.json(invoices);
     }
     catch(err){
