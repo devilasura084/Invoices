@@ -49,7 +49,7 @@ const Signup = () => {
     if(verifydata({name,email,password}))
     {
       try{
-      await axios.post('http://localhost:5000/api/auth/signup',userdata);
+      await axios.post('https://invoices-v4b4.onrender.com:5000/api/auth/signup',userdata);
       setErrormessage('');
       console.log('data sent');
       Navigate('/sign-in');
