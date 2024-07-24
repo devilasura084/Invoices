@@ -23,6 +23,16 @@ const InvoiceAddbox = ({setInvoicedata}:AddInvoiceprops) => {
                 setErrormessage('invoicenummber cannot be empty');
                 return;
             }
+            if(invoice_number<10000)
+            {
+                setErrormessage('invoicenumber can only have 5 digits');
+                return;
+            }
+            if(invoice_number>=100000)
+            {
+                setErrormessage('invoicenumber can only have 5 digits');
+                return;
+            }
             if(!customer_name)
             {
                 setErrormessage('customername cannot be empty')

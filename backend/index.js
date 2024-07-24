@@ -124,15 +124,24 @@ app.put('/api/invoices/:invoice_number',async (req,res)=>{
         res.status(500).json({ message: 'Server error', error: error.message });
     }
 })
-// app.get('/api/invoices/:invoice_number',async (req,res)=>{
-//     try{
-//         const { invoice_number } = req.params;
-//         const searchedinvoices=await invoicemodel.
-//     }
-//     catch{
-
-//     }
-// })
+app.get('/api/invoices/:invoice_number',async (req,res)=>{
+    
+    try{
+        const { invoice_number } = req.params;
+        if (!invoice_number) {
+            return res.status(400).json({ error: 'Invoice number is required' });
+          }
+        const searchedinvoices=await invoicemodel.find({invoice_number:{$gte:invoice_number}}).sort({invoice_number:1});
+        if (searchedinvoices.length > 0) {
+            res.json(searchedinvoices);
+          } else {
+            res.status(404).json({ error: 'No invoices found' });
+          }
+    }
+    catch (error) {
+        res.status(500).json({ error: 'Internal Server Error' });
+      }
+})
 app.listen(process.env.PORT, () => {
     console.log(`Server is running on port ${process.env.PORT}`);
   });
