@@ -23,7 +23,7 @@ if (!MONGO_URL) {
 console.log('MongoDB URL:', MONGO_URL);
 console.log('Port:', PORT);
 try {
-    await mongoose.connect(process.env.MONGO_URL);
+     mongoose.connect(process.env.MONGO_URL);
     console.log('Connected to MongoDB');
     
     const server = app.listen(PORT, () => {
@@ -39,11 +39,9 @@ try {
         case 'EACCES':
           console.error(`Port ${PORT} requires elevated privileges`);
           process.exit(1);
-          break;
         case 'EADDRINUSE':
           console.error(`Port ${PORT} is already in use`);
           process.exit(1);
-          break;
         default:
           throw error;
       }
