@@ -13,15 +13,10 @@ require('dotenv').config();
 const app=express();
 app.use(bodyparser.json());
 app.use(cors());
-const PORT = process.env.PORT || 3000;
-const MONGO_URL = process.env.MONGO_URL;
-
 if (!MONGO_URL) {
     console.error('MONGO_URL is not defined in environment variables');
     process.exit(1);
 }
-console.log('MongoDB URL:', MONGO_URL);
-console.log('Port:', PORT);
 try {
      mongoose.connect(process.env.MONGO_URL);
     console.log('Connected to MongoDB');
@@ -32,6 +27,7 @@ try {
   
     server.on('error', (error) => {
       if (error.syscall !== 'listen') {
+        console.log(error)
         throw error;
       }
   
@@ -215,13 +211,20 @@ app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).send('Something broke!');
 });
-const server = app.listen(process.env.PORT, () => {
-    console.log(`Server is running on port ${process.env.PORT}`);
-  });
-  
-  process.on('SIGTERM', () => {
+const server = app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
+
+process.on('SIGTERM', () => {
     console.log('SIGTERM signal received: closing HTTP server');
     server.close(() => {
-      console.log('HTTP server closed');
+        console.log('HTTP server closed');
     });
-  });
+});
+
+process.on('SIGINT', () => {
+    console.log('SIGINT signal received: closing HTTP server');
+    server.close(() => {
+        console.log('HTTP server closed');
+    });
+});
