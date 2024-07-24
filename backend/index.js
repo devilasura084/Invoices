@@ -7,6 +7,8 @@ const bcrypt=require('bcrypt');
 const jwt=require('jsonwebtoken');
 const autthenticaejwt = require('./middleware/authMiddleware');
 const invoicemodel = require('./models/Invoices');
+const path = require('path');
+const PDFDocument = require('pdfkit');
 require('dotenv').config();
 const app=express();
 app.use(bodyparser.json());
@@ -107,6 +109,7 @@ app.delete('/api/invoices/:invoice_number',async (req,res)=>{
 app.put('/api/invoices/:invoice_number',async (req,res)=>{
     try{
         const { invoice_number } = req.params;
+        console.log(invoice_number)
         const updatedata=req.body;
         const updatedinvoice=await invoicemodel.findOneAndUpdate(
             {invoice_number:invoice_number},
@@ -140,6 +143,31 @@ app.get('/api/invoices/:invoice_number',async (req,res)=>{
     }
     catch (error) {
         res.status(500).json({ error: 'Internal Server Error' });
+      }
+})
+app.get('/api/invoices/:invoice_number/pdf',async(req,res)=>{
+    try{
+        const { invoice_number } = req.params;
+        const cleaninvoice=parseInt(invoice_number.slice(1));
+        const invoicetodownload=await invoicemodel.findOne({invoice_number:cleaninvoice})
+        const doc = new PDFDocument();
+        const dateobj=new Date(invoicetodownload.due_date)
+        const date=`${dateobj.getDate()}-${dateobj.getMonth()}-${dateobj.getFullYear()}`
+        const paid=invoicetodownload.status?"Paid":"Pending"
+        res.setHeader('Content-Type', 'application/pdf');
+        res.setHeader('Content-Disposition',     `attachment; filename=invoice_${cleaninvoice}.pdf`);
+        doc.pipe(res);
+        doc.fontSize(25).text('Invoice', 100, 80);
+        doc.fontSize(15).text(`Invoice Number: ${cleaninvoice}`, 100, 120)
+        doc.fontSize(15).text(`Contact Name: ${invoicetodownload.customer_name}`,100, 140)
+        doc.fontSize(15).text(`Amount: ${invoicetodownload.amount}`,100, 160)
+        doc.fontSize(15).text(`Contact Name: ${date}`,100, 180)
+        doc.fontSize(15).text(`Contact Name: ${paid}`,100, 200)
+        doc.end();
+    }
+    catch (error) {
+        console.error('Error generating PDF:', error);
+        res.status(500).json({ error: 'An error occurred while generating the PDF' });
       }
 })
 app.listen(process.env.PORT, () => {
