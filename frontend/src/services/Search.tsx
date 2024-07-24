@@ -8,7 +8,7 @@ const Search = ({setInvoicedata}:searchProps) => {
     const [error, setError] = useState('');
     const fetchInvoices = async (search: number| undefined) => {
       try {
-        const url = search ? `http://localhost:5000/api/invoices/${search}` : 'http://localhost:5000/api/invoices';
+        const url = search ? `https://invoices-v4b4.onrender.com/api/invoices/${search}` : 'https://invoices-v4b4.onrender.com/api/invoices';
         const response = await axios.get(url);
         setInvoicedata(response.data);
         setError('');
@@ -28,7 +28,7 @@ const Search = ({setInvoicedata}:searchProps) => {
         return;
       }
       try {
-        const response = await axios.get(`http://localhost:5000/api/invoices/${search}`);
+        const response = await axios.get(`https://invoices-v4b4.onrender.com/api/invoices/${search}`);
         setInvoicedata(response.data);
         setError('');
       } catch (err) {

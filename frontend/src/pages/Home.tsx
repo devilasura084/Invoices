@@ -19,7 +19,7 @@ const Home = () => {
   useEffect(()=>{
     const fetchinvoices=async()=>{
       try{
-      const response=await axios.get('http://localhost:5000/api/invoices')
+      const response=await axios.get('https://invoices-v4b4.onrender.com/api/invoices')
       setInvoicedata(response.data);
     }
     catch (err) {

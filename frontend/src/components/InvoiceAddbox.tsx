@@ -8,7 +8,7 @@ const InvoiceAddbox = ({setInvoicedata}:AddInvoiceprops) => {
     const [errormessage,setErrormessage]=useState('');
     const fetchinvoices=async()=>{
         try{
-        const response=await axios.get('http://localhost:5000/api/invoices')
+        const response=await axios.get('https://invoices-v4b4.onrender.com/api/invoices')
         setInvoicedata(response.data);
       }
       catch (err) {
@@ -49,7 +49,7 @@ const InvoiceAddbox = ({setInvoicedata}:AddInvoiceprops) => {
                 return;
             }
             try{
-                await axios.post('http://localhost:5000/api/invoices',invoicedata);
+                await axios.post('https://invoices-v4b4.onrender.com/api/invoices',invoicedata);
                 fetchinvoices();
                 setErrormessage('');
             }

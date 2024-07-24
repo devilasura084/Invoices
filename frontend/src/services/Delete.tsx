@@ -8,7 +8,7 @@ const Delete = ({invoice_number,setInvoicedata}:Deleteprops) => {
     const [isLoading, setIsLoading] = useState(false);
     const fetchinvoices=async()=>{
         try{
-        const response=await axios.get('http://localhost:5000/api/invoices')
+        const response=await axios.get('https://invoices-v4b4.onrender.com/api/invoices')
         setInvoicedata(response.data);
       }
       catch (err) {
@@ -18,7 +18,7 @@ const Delete = ({invoice_number,setInvoicedata}:Deleteprops) => {
     const Deleteinvoice=async ()=>{
         setIsLoading(true);
         try{
-            const response=await axios.delete(`http://localhost:5000/api/invoices/${invoice_number}`)
+            const response=await axios.delete(`https://invoices-v4b4.onrender.com/api/invoices/${invoice_number}`)
             console.log(response);
             fetchinvoices();
         }

@@ -18,7 +18,7 @@ const Edit = ({setEdit,invoice_number,setInvoicedata}:Editprops) => {
       
       const fetchinvoices=async()=>{
         try{
-        const response=await axios.get('http://localhost:5000/api/invoices')
+        const response=await axios.get('https://invoices-v4b4.onrender.com/api/invoices')
         setInvoicedata(response.data);
       }
       catch (err) {
@@ -29,7 +29,7 @@ const Edit = ({setEdit,invoice_number,setInvoicedata}:Editprops) => {
         console.log(editData)
         
         try{
-            await axios.put(`http://localhost:5000/api/invoices/${invoice_number}`,editData);
+            await axios.put(`https://invoices-v4b4.onrender.com/api/invoices/${invoice_number}`,editData);
             fetchinvoices()
         }
         catch (error) {

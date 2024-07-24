@@ -89,14 +89,14 @@ app.get('/api/invoices',async (req,res)=>{
         res.status(500).json({error:'Internal server error'})
     }
 })
-// app.get('/dashboard',autthenticaejwt,(req,res)=>{
-//     console.log(req.body)
-//     res.send('This is a protected routte');
-// })
-// app.get('/',autthenticaejwt,(req,res)=>{
-//     console.log(req.body)
-//     res.send('This is a protected routte');
-// })
+app.get('/dashboard',autthenticaejwt,(req,res)=>{
+    console.log(req.body)
+    res.send('This is a protected routte');
+})
+app.get('/',autthenticaejwt,(req,res)=>{
+    console.log(req.body)
+    res.send('This is a protected routte');
+})
 // app.delete('/api/invoices/:invoice_number',async (req,res)=>{
 //     try {
 //         console.log(req.body)

@@ -6,7 +6,7 @@ interface Downloadprops{
 const Download:React.FC<Downloadprops> = ({invoice_number}) => {
     const handleClick=async ()=>{
         try{
-            const response=await axios.get(`http://localhost:5000/api/invoices/:${invoice_number}/pdf`,{
+            const response=await axios.get(`https://invoices-v4b4.onrender.com/api/invoices/:${invoice_number}/pdf`,{
                 params:{invoice_number},
                 responseType:'blob',
             })
