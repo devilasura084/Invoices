@@ -1,30 +1,28 @@
-# React + TypeScript + Vite
+# Invoice Management System
+## Project Description
+This is a full-stack web application built using the MERN stack (MongoDB, Express.js, React.js, Node.js). The application includes user authentication, a dashboard with basic analytics, CRUD operations for managing invoices, and PDF generation for invoices.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Technologies Used
+-MongoDB
+-Express
+-Reactjs
+-Node.js
+-JWT for authentication
+-pdfkit for pdf generation
+-Vercel for frontend deployment
+-Render for backend deployment
 
-Currently, two official plugins are available:
+## Setup instruction
+### Backend 
+1. Clone the repository: `git clone https://github.com/devilasura084/Invoices`
+2. Navigate to the backend directory:`cd backend`
+3. Install dependencies: `npm install`
+4. Create a `.env` file
+5. Start the server: `npm start`
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Frontend
+1. Navigate to the frontend directory: `cd frontend`
+2. Install dependencies: `npm install`
+3. Start the developement server: `npm run dev`
 
-## Expanding the ESLint configuration
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json', './tsconfig.app.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
