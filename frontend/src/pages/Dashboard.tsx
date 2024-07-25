@@ -6,6 +6,7 @@ import axios from 'axios'
 import Search from '../services/Search'
 const Dashboard = () => {
   const [invoicedata,setInvoicedata]=useState<invoice[]>([])
+  const apiUrl = import.meta.env.VITE_API_BASE_URL;
   const Navigate=useNavigate();
   useEffect(()=>{
     const token=localStorage.getItem('token');
@@ -17,7 +18,7 @@ const Dashboard = () => {
   useEffect(()=>{
     const fetchinvoices=async()=>{
       try{
-      const response=await axios.get('https://invoices-v4b4.onrender.com/api/invoices')
+      const response=await axios.get(`${apiUrl}/api/invoices`)
       setInvoicedata(response.data);
     }
     catch (err) {

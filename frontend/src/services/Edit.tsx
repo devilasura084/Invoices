@@ -15,10 +15,10 @@ interface edit{
 const Edit = ({setEdit,invoice_number,setInvoicedata}:Editprops) => {
     const [editData, setEditData] = useState<edit>({
     });
-      
+    const apiUrl = import.meta.env.VITE_API_BASE_URL;
       const fetchinvoices=async()=>{
         try{
-        const response=await axios.get('https://invoices-v4b4.onrender.com/api/invoices')
+        const response=await axios.get(`${apiUrl}/api/invoices`)
         setInvoicedata(response.data);
       }
       catch (err) {
@@ -29,7 +29,7 @@ const Edit = ({setEdit,invoice_number,setInvoicedata}:Editprops) => {
         console.log(editData)
         
         try{
-            await axios.put(`https://invoices-v4b4.onrender.com/api/invoices/${invoice_number}`,editData);
+            await axios.put(`${apiUrl}/api/invoices/${invoice_number}`,editData);
             fetchinvoices()
         }
         catch (error) {

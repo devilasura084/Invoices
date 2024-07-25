@@ -6,9 +6,10 @@ interface AddInvoiceprops{
 const InvoiceAddbox = ({setInvoicedata}:AddInvoiceprops) => {
     const [invoicedata,setinvoicedata]    =useState<invoice>({});
     const [errormessage,setErrormessage]=useState('');
+    const apiUrl = import.meta.env.VITE_API_BASE_URL;
     const fetchinvoices=async()=>{
         try{
-        const response=await axios.get('https://invoices-v4b4.onrender.com/api/invoices')
+        const response=await axios.get(`${apiUrl}/api/invoices`)
         setInvoicedata(response.data);
       }
       catch (err) {
@@ -49,7 +50,7 @@ const InvoiceAddbox = ({setInvoicedata}:AddInvoiceprops) => {
                 return;
             }
             try{
-                await axios.post('https://invoices-v4b4.onrender.com/api/invoices',invoicedata);
+                await axios.post(`${apiUrl}/api/invoices`,invoicedata);
                 fetchinvoices();
                 setErrormessage('');
             }

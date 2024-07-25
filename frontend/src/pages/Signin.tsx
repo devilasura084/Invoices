@@ -6,6 +6,7 @@ interface signinformelements{
     password?:string,
   }
 const Signin = () => {
+    const apiUrl = import.meta.env.VITE_API_BASE_URL;
     const Navigate=useNavigate();
     const [userdata,setUserdata]=useState<signinformelements>({});
     const [errormessage,setErrormessage]=useState<String>('');
@@ -46,7 +47,7 @@ const Signin = () => {
         if(verifydata({email,password}))
         {
           try{
-            const response=await axios.post('https://invoices-v4b4.onrender.com/api/auth/login',userdata);
+            const response=await axios.post(`${apiUrl}/api/auth/login`,userdata);
             setErrormessage('');
             const token=response.data;
             if(token){

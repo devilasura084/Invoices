@@ -5,10 +5,11 @@ interface Deleteprops{
     setInvoicedata:React.Dispatch<React.SetStateAction<invoice[]>>
 }
 const Delete = ({invoice_number,setInvoicedata}:Deleteprops) => {
+  const apiUrl = import.meta.env.VITE_API_BASE_URL;
     const [isLoading, setIsLoading] = useState(false);
     const fetchinvoices=async()=>{
         try{
-        const response=await axios.get('https://invoices-v4b4.onrender.com/api/invoices')
+        const response=await axios.get(`${apiUrl}/api/invoices`)
         setInvoicedata(response.data);
       }
       catch (err) {
@@ -18,7 +19,7 @@ const Delete = ({invoice_number,setInvoicedata}:Deleteprops) => {
     const Deleteinvoice=async ()=>{
         setIsLoading(true);
         try{
-            const response=await axios.delete(`https://invoices-v4b4.onrender.com/api/invoices/${invoice_number}`)
+            const response=await axios.delete(`${apiUrl}/api/invoices/${invoice_number}`)
             console.log(response);
             fetchinvoices();
         }

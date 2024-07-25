@@ -6,9 +6,10 @@ interface searchProps{
 const Search = ({setInvoicedata}:searchProps) => {
     const [search,setSearch]=useState<number>();
     const [error, setError] = useState('');
+    const apiUrl = import.meta.env.VITE_API_BASE_URL;
     const fetchInvoices = async (search: number| undefined) => {
       try {
-        const url = search ? `https://invoices-v4b4.onrender.com/api/invoices/${search}` : 'https://invoices-v4b4.onrender.com/api/invoices';
+        const url = search ? `${apiUrl}/api/invoices/${search}` : `${apiUrl}/api/invoices`;
         const response = await axios.get(url);
         setInvoicedata(response.data);
         setError('');
@@ -28,7 +29,7 @@ const Search = ({setInvoicedata}:searchProps) => {
         return;
       }
       try {
-        const response = await axios.get(`https://invoices-v4b4.onrender.com/api/invoices/${search}`);
+        const response = await axios.get(`${apiUrl}/api/invoices/${search}`);
         setInvoicedata(response.data);
         setError('');
       } catch (err) {

@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 
 const Home = () => {
+  const apiUrl = import.meta.env.VITE_API_BASE_URL;
   const Navigate=useNavigate();
   const [invoicedata,setInvoicedata]=useState<invoice[]>([])
   useEffect(()=>{
@@ -19,7 +20,7 @@ const Home = () => {
   useEffect(()=>{
     const fetchinvoices=async()=>{
       try{
-      const response=await axios.get('https://invoices-v4b4.onrender.com/api/invoices')
+      const response=await axios.get(`${apiUrl}/api/invoices`)
       setInvoicedata(response.data);
     }
     catch (err) {

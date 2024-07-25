@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 const Signup = () => {
   const Navigate=useNavigate();
+  const apiUrl = import.meta.env.VITE_API_BASE_URL;
   const [userdata,setUserdata]=useState<signupformelements>({});
   const [errormessage,setErrormessage]=useState<String>('');
   const verifydata=({name,email,password}:signupformelements)=>{
@@ -49,7 +50,7 @@ const Signup = () => {
     if(verifydata({name,email,password}))
     {
       try{
-      await axios.post('https://invoices-v4b4.onrender.com/api/auth/signup',userdata);
+      await axios.post(`${apiUrl}/api/auth/signup`,userdata);
       setErrormessage('');
       console.log('data sent');
       Navigate('/sign-in');
