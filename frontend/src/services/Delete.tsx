@@ -19,8 +19,7 @@ const Delete = ({invoice_number,setInvoicedata}:Deleteprops) => {
     const Deleteinvoice=async ()=>{
         setIsLoading(true);
         try{
-            const response=await axios.delete(`${apiUrl}/api/invoices/${invoice_number}`)
-            console.log(response);
+            await axios.delete(`${apiUrl}/api/invoices/${invoice_number}`)
             fetchinvoices();
         }
         catch (err: any) {

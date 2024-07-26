@@ -52,7 +52,6 @@ const Signup = () => {
       try{
       await axios.post(`${apiUrl}/api/auth/signup`,userdata);
       setErrormessage('');
-      console.log('data sent');
       Navigate('/sign-in');
     }
     catch(err:any){

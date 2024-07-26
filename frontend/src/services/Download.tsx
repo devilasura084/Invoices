@@ -20,7 +20,7 @@ const Download:React.FC<Downloadprops> = ({invoice_number}) => {
             link.remove();
         }
         catch(err){
-            console.log(err);
+            console.error(err);
         }
     }
   return (

@@ -26,8 +26,6 @@ const Edit = ({setEdit,invoice_number,setInvoicedata}:Editprops) => {
       }
     }
     const handleEditSubmit=async()=>{
-        console.log(editData)
-        
         try{
             await axios.put(`${apiUrl}/api/invoices/${invoice_number}`,editData);
             fetchinvoices()
